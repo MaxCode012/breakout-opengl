@@ -1,0 +1,37 @@
+# Build artifacts
+*.o
+*.obj
+*.lo
+*.a
+*.lib
+*.so
+*.dll
+*.dylib
+*.exe
+*.out
+*.app
+
+# Debugging files
+*.dSYM/
+*.stackdump
+*.core
+
+# Visual Studio
+*.sdf
+*.suo
+*.vcxproj*
+*.opensdf
+*.user
+*.VC.db
+*.idb
+*.pdb
+*.vs
+x64
+
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# Other
+*.log
