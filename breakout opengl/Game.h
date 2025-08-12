@@ -21,9 +21,13 @@ public:
     GameState               State;
     bool                    Keys[1024];
     unsigned int            Width, Height;
-    //player
     
+    //player
     GameObject player;
+
+    //game constants
+    const float gravity = 400.0f;
+    const float maxPlayerVelocity = 200.0f;
 
     // constructor/destructor
     Game(unsigned int width, unsigned int height);

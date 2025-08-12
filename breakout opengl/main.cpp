@@ -88,7 +88,7 @@ int main(int argc, char* argv[])
         Breakout.Update(deltaTime);
 
         // Clear the screen
-        glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+        glClearColor(101.0f / 255.0f, 115.0f / 255.0f, 115.0f / 255.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         // Render the game

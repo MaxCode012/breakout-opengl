@@ -13,12 +13,12 @@ SpriteRenderer::~SpriteRenderer()
     glDeleteVertexArrays(1, &this->quadVAO);
 }
 
-void SpriteRenderer::DrawSprite(Texture2D texture, glm::vec2 position, glm::vec2 size, float rotate, glm::vec3 color)
+void SpriteRenderer::DrawSprite(Texture2D& texture, glm::vec2 position, glm::vec2 size, float rotate, glm::vec3 color
+    , glm::vec2 uvOffset, glm::vec2 uvSize)
 {
-    // prepare transformations
     this->shader.Use();
     glm::mat4 model = glm::mat4(1.0f);
-    model = glm::translate(model, glm::vec3(position, 0.0f));  // first translate (transformations are: scale happens first, then rotation, and then final translation happens; reversed order)
+    model = glm::translate(model, glm::vec3(position - size * 0.5f, 0.0f));  // first translate (transformations are: scale happens first, then rotation, and then final translation happens; reversed order)
 
     model = glm::translate(model, glm::vec3(0.5f * size.x, 0.5f * size.y, 0.0f)); // move origin of rotation to center of quad
     model = glm::rotate(model, glm::radians(rotate), glm::vec3(0.0f, 0.0f, 1.0f)); // then rotate
@@ -31,6 +31,10 @@ void SpriteRenderer::DrawSprite(Texture2D texture, glm::vec2 position, glm::vec2
     // render textured quad
     this->shader.SetVector3f("spriteColor", color);
 
+    this->shader.SetVector2f("uvOffset", uvOffset);
+    this->shader.SetVector2f("uvSize", uvSize);
+
+
     glActiveTexture(GL_TEXTURE0);
     texture.Bind();
 
@@ -39,19 +43,21 @@ void SpriteRenderer::DrawSprite(Texture2D texture, glm::vec2 position, glm::vec2
     glBindVertexArray(0);
 }
 
+
+
 void SpriteRenderer::initRenderData()
 {
     // configure VAO/VBO
     unsigned int VBO;
     float vertices[] = {
-        // pos      // tex
-        0.0f, 1.0f, 0.0f, 1.0f,
-        1.0f, 0.0f, 1.0f, 0.0f,
-        0.0f, 0.0f, 0.0f, 0.0f,
+        // Positions // Texture Coords  
+        0.0f, 1.0f,  0.0f, 1.0f,
+        1.0f, 0.0f,  1.0f, 0.0f,
+        0.0f, 0.0f,  0.0f, 0.0f,
 
-        0.0f, 1.0f, 0.0f, 1.0f,
-        1.0f, 1.0f, 1.0f, 1.0f,
-        1.0f, 0.0f, 1.0f, 0.0f
+        0.0f, 1.0f,  0.0f, 1.0f,
+        1.0f, 1.0f,  1.0f, 1.0f,
+        1.0f, 0.0f,  1.0f, 0.0f
     };
 
     glGenVertexArrays(1, &this->quadVAO);
